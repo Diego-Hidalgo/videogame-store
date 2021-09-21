@@ -1,4 +1,4 @@
-package stack;
+package dataStructures.stack;
 
 public class StackException extends Exception {
 

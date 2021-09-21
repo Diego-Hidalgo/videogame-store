@@ -1,4 +1,4 @@
-package stack;
+package dataStructures.stack;
 
 import node.Node;
 

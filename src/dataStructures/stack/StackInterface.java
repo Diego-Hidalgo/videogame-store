@@ -1,4 +1,4 @@
-package stack;
+package dataStructures.stack;
 
 public interface StackInterface<E> {
 
