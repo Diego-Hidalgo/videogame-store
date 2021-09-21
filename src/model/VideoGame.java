@@ -1,18 +1,18 @@
 package model;
 
-public class Videogame {
+public class VideoGame {
 
 	private int code;
 	private int quantity;
 	private String shelf;
 	private double price;
 	
-	public Videogame(int code, int quantity, String shelf, double price) {
+	public VideoGame(int code, int quantity, String shelf, double price) {
 		this.code = code;
 		this.quantity = quantity;
 		this.shelf = shelf;
 		this.price = price;
-	}
+	}//End Constructor
 
 	public int getCode() {
 		return code;
@@ -46,4 +46,4 @@ public class Videogame {
 		this.price = price;
 	}
 	
-}
+}//End VideoGame class

@@ -7,7 +7,7 @@ public class Client {
 	private String id;
 	private int time;
 	private double total;
-	private LinkedList<Videogame> games;
+	private LinkedList<VideoGame> games;
 
 	public Client(String id) {
 		this.id = id;
@@ -37,11 +37,11 @@ public class Client {
 		this.total = total;
 	}//End setTotal
 
-	public LinkedList<Videogame> getGames() {
+	public LinkedList<VideoGame> getGames() {
 		return games;
 	}//End getGames;
 
-	public void setGames(LinkedList<Videogame> games) {
+	public void setGames(LinkedList<VideoGame> games) {
 		this.games = games;
 	}//End setGames
 
