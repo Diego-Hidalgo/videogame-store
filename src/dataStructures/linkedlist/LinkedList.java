@@ -1,6 +1,6 @@
 package dataStructures.linkedlist;
 
-import node.Node;
+import dataStructures.node.Node;
 
 public class LinkedList<E> implements LinkedListInterface<E> {
 

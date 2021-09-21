@@ -1,6 +1,6 @@
 package dataStructures.stack;
 
-import node.Node;
+import dataStructures.node.Node;
 
 public class Stack<E> implements StackInterface<E> {
 

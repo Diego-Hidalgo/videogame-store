@@ -1,6 +1,6 @@
 package dataStructures.hashtable;
 
-import linkedlist.LinkedList;
+import dataStructures.linkedlist.LinkedList;
 
 public class HashTable<K, V> implements HashTableInterface<K, V> {
 
