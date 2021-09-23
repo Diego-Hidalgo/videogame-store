@@ -4,6 +4,6 @@ public class HashTableException extends Exception {
 
     public HashTableException(String msg) {
         super(msg);
-    }//End HashTableException
+    }//End Constructor
 
-}//End HashTableException
+}//End HashTableException class

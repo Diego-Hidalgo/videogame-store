@@ -2,14 +2,10 @@ package dataStructures.hashtable;
 
 public interface HashTableInterface<K, V> {
 
-    public boolean isEmpty();
+    public void insert(K key, V value) throws HashTableException;
 
-    public int size();
+    public V search(K key);
 
-    public void insert(K key, V value);
+    public boolean remove(K key);
 
-    public void search(K key);
-
-    public void delete(K key);
-
-}//End HashTableInterface
+}//End hashTableInterface interface

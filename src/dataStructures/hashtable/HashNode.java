@@ -8,7 +8,7 @@ public class HashNode<K, V> {
     public HashNode(K key, V value) {
         this.key = key;
         this.value = value;
-    }//End Constructor
+    }//End HashNode
 
     public K getKey() {
         return key;
@@ -21,5 +21,9 @@ public class HashNode<K, V> {
     public V getValue() {
         return value;
     }//End getValue
+
+    public void setValue(V value) {
+        this.value = value;
+    }//End setValue
 
 }//End HashNode class
