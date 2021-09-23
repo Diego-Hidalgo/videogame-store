@@ -1,5 +1,6 @@
 package model;
 
+import dataStructures.hashtable.HashTableException;
 import dataStructures.linkedlist.LinkedList;
 import dataStructures.queue.Queue;
 
@@ -18,5 +19,21 @@ public class Store {
             cashiers.add(new Cashier(false));
         }//End for
     }//End registerCashiers
+
+    public boolean registerVideoGame(String shelf, int code, int quantity, double price) {
+        VideoGame toAdd = new VideoGame(code, quantity, shelf, price);
+        for(int i = 0; i < shelves.size(); i ++) {
+            Shelf current = shelves.get(i);
+            if(current.getIdentifier().equalsIgnoreCase(shelf)) {
+                try {
+                    current.addGame(toAdd);
+                    return true;
+                } catch (HashTableException e) {
+                    return false;
+                }//End try/catch
+            }//End if
+        }//End for
+        return false;
+    }//End registerVideoGame
 
 }//End Store class
