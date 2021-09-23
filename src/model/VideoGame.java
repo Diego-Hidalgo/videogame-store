@@ -45,5 +45,15 @@ public class VideoGame {
 	public void setPrice(double price) {
 		this.price = price;
 	}//End setPrice
+
+	@Override
+	public String toString() {
+		String info = "";
+		info = "\nEstantería: " + shelf +
+				"\nCódigo: " + code +
+				"\nCantidad: " + quantity +
+				"\nPrecio: $" + price;
+		return info;
+	}//End toString
 	
 }//End VideoGame class

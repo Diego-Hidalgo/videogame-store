@@ -7,7 +7,7 @@ public class HashTable<K, V> implements HashTableInterface<K, V> {
 
     private int count;
     private int capacity;
-    private static final int PREDEFINED_CAPACITY = 10;
+    private static final int PREDEFINED_CAPACITY = 123;
     private HashNode<K, V>[] entries;
 
     public HashTable() {
@@ -22,7 +22,7 @@ public class HashTable<K, V> implements HashTableInterface<K, V> {
         Arrays.fill(entries, null);
     }//End Constructor2
 
-    public int getSize() {
+    public int size() {
         return count;
     }//End getSize
 
@@ -51,7 +51,6 @@ public class HashTable<K, V> implements HashTableInterface<K, V> {
         do {
             int j = h(key, i);
             if(entries[j] == null) {
-                System.out.println(j);
                 entries[j] = new HashNode<K, V>(key, value);
                 count ++;
                 return;
@@ -72,7 +71,7 @@ public class HashTable<K, V> implements HashTableInterface<K, V> {
                     return entries[j].getValue();
             }//End if
             i ++;
-        } while(entries[j] != null || i != capacity);
+        } while(entries[j] != null || i == capacity);
         return null;
     }//End search
 

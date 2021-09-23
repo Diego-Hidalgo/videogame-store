@@ -3,6 +3,7 @@ package model;
 import dataStructures.hashtable.HashTableException;
 import dataStructures.linkedlist.LinkedList;
 import dataStructures.queue.Queue;
+import dataStructures.queue.QueueException;
 
 public class Store {
 
@@ -12,6 +13,8 @@ public class Store {
 
     public Store() {
         clients = new Queue<>();
+        cashiers = new LinkedList<>();
+        shelves = new LinkedList<>();
     }//End Store
 
     public void registerCashiers(int amount) {
@@ -29,7 +32,7 @@ public class Store {
         return false;
     }//End validateShelfIdentifier
 
-    public boolean registerShelves(String identifier) {
+    public boolean registerShelf(String identifier) {
         if(searchShelfIdentifier(identifier)) {
             return false;
         } else {
@@ -54,9 +57,44 @@ public class Store {
         return false;
     }//End registerVideoGame
 
-    public void registerClient(String id) {
-        Client toAdd = new Client(id);
-        clients.enqueue(toAdd);
+    public boolean registerClient(String id) throws QueueException {
+        if(searchClient(id) == null) {
+            clients.enqueue(new Client(id));
+            return true;
+        } else {
+            return false;
+        }//End if/else
     }//End registerClient
+
+    private VideoGame searchVideoGameInShelves(int code) {
+        for(int i = 0; i < shelves.size(); i ++) {
+            Shelf shelf = shelves.get(i);
+            if(shelf.searchVideoGame(code) != null)
+                return shelf.searchVideoGame(code);
+        }//End for
+        return null;
+    }//End searchVideoGameInShelves
+
+    private Client searchClient(String id) throws QueueException {
+        Queue<Client> aux = clients.reverse();
+        while(!aux.isEmpty()) {
+            Client client = aux.dequeue();
+            if(client.getId().equalsIgnoreCase(id))
+                return client;
+        }//End while
+        return null;
+    }//End searchCustomer
+
+    public boolean addVideoGameToClient(String id, int code, int quantity) throws QueueException {
+        Client client = searchClient(id);
+        VideoGame aux = searchVideoGameInShelves(code);
+        if(aux != null && client != null) {
+            VideoGame toAdd = new VideoGame(code, quantity, aux.getShelf(), aux.getPrice());
+            client.addVideoGameToList(toAdd);
+            return true;
+        } else {
+            return false;
+        }//End if/else
+    }//End addVideoGameToClient
 
 }//End Store class

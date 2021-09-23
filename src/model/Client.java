@@ -11,6 +11,9 @@ public class Client {
 
 	public Client(String id) {
 		this.id = id;
+		games = new LinkedList<>();
+		time = 0;
+		total = 0.0;
 	}//End Client
 
 	public String getId() {
@@ -44,5 +47,19 @@ public class Client {
 	public void setGames(LinkedList<VideoGame> games) {
 		this.games = games;
 	}//End setGames
+
+	public void addVideoGameToList(VideoGame toAdd) {
+		games.add(toAdd);
+	}//End addVideoGameToList
+
+	@Override
+	public String toString() {
+		String info = "";
+		info = "\nId: " + id +
+				"\nTiempo: " + time + " s" +
+				"\n--- JUEGOS ---" + games.toString() +
+				"\nTotal: $" + total;
+		return info;
+	}//End toString
 
 }//End Client class

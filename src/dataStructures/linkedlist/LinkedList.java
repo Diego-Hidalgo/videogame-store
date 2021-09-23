@@ -195,4 +195,13 @@ public class LinkedList<E> implements LinkedListInterface<E> {
         }//End if/else
     }//End isInList
 
+    @Override
+    public String toString() {
+        String info = "";
+        for(int i = 0; i < size; i ++) {
+            info += "\n[" + (i + 1) + "] " + get(i).toString();
+        }//End for
+        return info;
+    }//End toString
+
 }//End LinkedList class
