@@ -54,4 +54,9 @@ public class Store {
         return false;
     }//End registerVideoGame
 
+    public void registerClient(String id) {
+        Client toAdd = new Client(id);
+        clients.enqueue(toAdd);
+    }//End registerClient
+
 }//End Store class
