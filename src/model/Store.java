@@ -20,6 +20,24 @@ public class Store {
         }//End for
     }//End registerCashiers
 
+    private boolean searchShelfIdentifier(String identifier) {
+        for(int i = 0; i < shelves.size(); i ++) {
+            Shelf shelf = shelves.get(i);
+            if(shelf.getIdentifier().equalsIgnoreCase(identifier))
+                return true;
+        }//End for
+        return false;
+    }//End validateShelfIdentifier
+
+    public boolean registerShelves(String identifier) {
+        if(searchShelfIdentifier(identifier)) {
+            return false;
+        } else {
+            shelves.add(new Shelf(identifier));
+            return true;
+        }//End if/else
+    }//End registerShelves
+
     public boolean registerVideoGame(String shelf, int code, int quantity, double price) {
         VideoGame toAdd = new VideoGame(code, quantity, shelf, price);
         for(int i = 0; i < shelves.size(); i ++) {
