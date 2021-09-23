@@ -13,6 +13,10 @@ public class Store {
         clients = new Queue<>();
     }//End Store
 
-
+    public void registerCashiers(int amount) {
+        for(int i = 0; i < amount; i ++) {
+            cashiers.add(new Cashier(false));
+        }//End for
+    }//End registerCashiers
 
 }//End Store class
