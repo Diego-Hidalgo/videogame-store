@@ -10,8 +10,8 @@ public interface StackInterface<E> {
 
     public E pop() throws StackException;
 
-    public E top() throws StackException;
-
     public E peek() throws StackException;
+
+    public E bottom() throws StackException;
 
 }//End StackInterface interface
