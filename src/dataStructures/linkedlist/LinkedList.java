@@ -64,9 +64,9 @@ public class LinkedList<E> implements LinkedListInterface<E> {
     }//End setElement
 
     public void setElement(int position, E toSet) {
-        Node<E> toAdd = new Node<E>(toSet);
         if(position < 0 || position >= size)
             throw new IndexOutOfBoundsException();
+        Node<E> toAdd = new Node<E>(toSet);
         if(position == 0) {
             toAdd.setPosition(0);
             toAdd.setNext(head.getNext());
