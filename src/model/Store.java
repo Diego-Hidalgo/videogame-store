@@ -57,6 +57,16 @@ public class Store {
         return false;
     }//End registerVideoGame
 
+    private Client searchClient(String id) throws QueueException {
+        Queue<Client> aux = clients.reverse();
+        while(!aux.isEmpty()) {
+            Client client = aux.dequeue();
+            if(client.getId().equalsIgnoreCase(id))
+                return client;
+        }//End while
+        return null;
+    }//End searchCustomer
+
     public boolean registerClient(String id) throws QueueException {
         if(searchClient(id) == null) {
             clients.enqueue(new Client(id));
@@ -75,16 +85,6 @@ public class Store {
         return null;
     }//End searchVideoGameInShelves
 
-    private Client searchClient(String id) throws QueueException {
-        Queue<Client> aux = clients.reverse();
-        while(!aux.isEmpty()) {
-            Client client = aux.dequeue();
-            if(client.getId().equalsIgnoreCase(id))
-                return client;
-        }//End while
-        return null;
-    }//End searchCustomer
-
     public boolean addVideoGameToClient(String id, int code, int quantity) throws QueueException {
         Client client = searchClient(id);
         VideoGame aux = searchVideoGameInShelves(code);
@@ -96,5 +96,43 @@ public class Store {
             return false;
         }//End if/else
     }//End addVideoGameToClient
+
+    public void sortClientList(int option, String id) throws QueueException {
+        Client client = searchClient(id);
+        if(client != null) {
+            switch(option) {
+                case 1:
+                    insertionSort(client.getGames());
+                    break;
+                case 2:
+                    bubbleSort(client.getGames());
+                    break;
+            }//End switch
+        }//End if
+    }//End sortClientList
+
+    private void insertionSort(LinkedList<VideoGame> list) {
+        for(int i = 1; i < list.size(); i ++) {
+            VideoGame key = list.get(i);
+            int j = i - 1;
+            while(j >= 0 && list.get(j).compareTo(key) > 0) {
+                list.setElement(j + 1, list.get(j));
+                j = j - 1;
+            }//End while
+            list.setElement(j + 1, key);
+        }//End for
+    }//End insertionSort
+
+    private void bubbleSort(LinkedList<VideoGame> list) {
+        for(int i = 0; i < list.size(); i ++) {
+            for(int j = 1; j < (list.size() - i); j ++) {
+                if(list.get(j - 1).compareTo(list.get(j)) > 0) {
+                    VideoGame aux = list.get(j - 1);
+                    list.setElement(j - 1, list.get(j));
+                    list.setElement(j, aux);
+                }//End if
+            }//End for
+        }//End for
+    }//End bubbleSort
 
 }//End Store class
