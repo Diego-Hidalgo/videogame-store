@@ -27,10 +27,12 @@ public class Queue<E> implements QueueInterface<E> {
     @Override
     public void enqueue(E e) {
         Node<E> toEnqueue = new Node<E>(e);
-        if(rear == null)
+        if(rear == null) {
             rear = toEnqueue;
-        rear.setPrevious(toEnqueue);
-        rear = rear.getPrevious();
+        } else {
+            rear.setPrevious(toEnqueue);
+            rear = rear.getPrevious();
+        }//End if/else
         size ++;
         if(size == 1)
             front = rear;
@@ -42,7 +44,7 @@ public class Queue<E> implements QueueInterface<E> {
             throw new QueueException("Unable to dequeue the front element because the queue is empty");
         Node<E> toDequeue = front;
         front = front.getPrevious();
-        size--;
+        size --;
         return toDequeue.getItem();
     }//End dequeue
 

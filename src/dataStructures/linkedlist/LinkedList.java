@@ -62,7 +62,7 @@ public class LinkedList<E> implements LinkedListInterface<E> {
             add(toAdd, head);
         } else {
             add(index, toAdd, head);
-        }//ENd if/else
+        }//End if/else
         size ++;
     }//End add
 

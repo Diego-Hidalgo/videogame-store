@@ -1,6 +1,6 @@
 package model;
 
-public class VideoGame {
+public class VideoGame implements Comparable<VideoGame> {
 
 	private int code;
 	private int quantity;
@@ -55,5 +55,12 @@ public class VideoGame {
 				"\nPrecio: $" + price;
 		return info;
 	}//End toString
-	
+
+	@Override
+	public int compareTo(VideoGame o) {
+		String info = shelf + code;
+		String aux = o.getShelf() + o.getCode();
+		return info.compareTo(aux);
+	}//End compareTo
+
 }//End VideoGame class
