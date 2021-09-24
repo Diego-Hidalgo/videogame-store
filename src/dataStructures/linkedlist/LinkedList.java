@@ -6,12 +6,10 @@ public class LinkedList<E> implements LinkedListInterface<E> {
 
     private int size;
     private Node<E> head;
-    private Node<E> last;
 
     public LinkedList() {
         size = 0;
         head = null;
-        last = null;
     }//End Constructor
 
     @Override
@@ -31,10 +29,68 @@ public class LinkedList<E> implements LinkedListInterface<E> {
     }//End getFirst
 
     public E getLast() throws LinkedListException {
-        if(last == null)
+        if(isEmpty())
             throw new LinkedListException("Unable to get the last element because the list is empty");
-        return last.getItem();
+        return get(size - 1);
     }//End getLast
+
+    public void setElement(E element, E toSet) throws LinkedListException {
+        if(!isInList(element))
+            throw new LinkedListException("The element does no exist in the list");
+        Node<E> toAdd = new Node<E>(toSet);
+        if(head.getItem() == element) {
+            toAdd.setPosition(0);
+            toAdd.setNext(head.getNext());
+            if(head.getNext() != null)
+                head.getNext().setPrevious(toAdd);
+            head = toAdd;
+        } else {
+            setElement(head, element, toAdd);
+        }//End if/else
+    }//End setElement
+
+    private void setElement(Node<E> aux, E element, Node<E> toAdd) {
+        if(aux != null && aux.getItem() == element) {
+            toAdd.setPosition(aux.getPosition());
+            toAdd.setPrevious(aux.getPrevious());
+            if(toAdd.getPrevious() != null)
+                toAdd.getPrevious().setNext(toAdd);
+            toAdd.setNext(aux.getNext());
+            if(toAdd.getNext() != null)
+                toAdd.getNext().setPrevious(toAdd);
+        } else {
+            setElement(aux.getNext(), element, toAdd);
+        }//End if/else
+    }//End setElement
+
+    public void setElement(int position, E toSet) {
+        Node<E> toAdd = new Node<E>(toSet);
+        if(position < 0 || position >= size)
+            throw new IndexOutOfBoundsException();
+        if(position == 0) {
+            toAdd.setPosition(0);
+            toAdd.setNext(head.getNext());
+            if(head.getNext() != null)
+                head.getNext().setPrevious(toAdd);
+            head = toAdd;
+        } else {
+            setElement(head, position, toAdd);
+        }//End if/else
+    }//End setElement
+
+    private void setElement(Node<E> aux, int position, Node<E> toAdd) {
+        if(aux != null && aux.getPosition() == position) {
+            toAdd.setPosition(aux.getPosition());
+            toAdd.setPrevious(aux.getPrevious());
+            if(aux.getPrevious() != null)
+                aux.getPrevious().setNext(toAdd);
+            toAdd.setNext(aux.getNext());
+            if(aux.getNext() != null)
+                aux.getNext().setPrevious(toAdd);
+        } else {
+            setElement(aux.getNext(), position, toAdd);
+        }//End if/else
+    }//End setElement
 
     private void increaseIndexes(Node<E> aux) {
         if(aux != null) {
@@ -82,7 +138,6 @@ public class LinkedList<E> implements LinkedListInterface<E> {
     public void add(E e) {
         Node<E> toAdd = new Node<E>(e);
         toAdd.setPosition(size);
-        last = toAdd;
         if(head == null) {
             head = toAdd;
         } else {
