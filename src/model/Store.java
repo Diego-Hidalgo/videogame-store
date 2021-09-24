@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Iterator;
+
 import dataStructures.hashtable.HashTableException;
 import dataStructures.linkedlist.LinkedList;
 import dataStructures.queue.Queue;
@@ -135,8 +137,15 @@ public class Store {
         }//End for
     }//End bubbleSort
 
-    public void pickUpGames() {
-
+    public void pickUpGames(Client client) {
+    	VideoGame game = null;
+    	for (int i = 0; i < client.getGames().size(); i++) {
+    		game = searchVideoGameInShelves(client.getGames().get(i).getCode());
+    		if(game.getQuantity() != 0) {
+    			searchVideoGameInShelves(client.getGames().get(i).getCode()).setQuantity(game.getQuantity()-1);
+    			client.getShoppingCart().push(game);
+    		}
+		}
     }//End pickUpGames
-
+    
 }//End Store class
