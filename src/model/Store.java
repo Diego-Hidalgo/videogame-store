@@ -1,5 +1,6 @@
 package model;
 
+import dataStructures.hashtable.HashTable;
 import dataStructures.hashtable.HashTableException;
 import dataStructures.linkedlist.LinkedList;
 import dataStructures.queue.Queue;
@@ -10,6 +11,7 @@ public class Store {
     private Queue<Client> clients;
     private LinkedList<Cashier> cashiers;
     private LinkedList<Shelf> shelves;
+
 
     public Store() {
         clients = new Queue<>();
@@ -97,4 +99,24 @@ public class Store {
         }//End if/else
     }//End addVideoGameToClient
 
+    public void sortVideoGamesBySelection(HashTable<Integer, VideoGame> videoGames) {
+    	for (int i = 0; i < videoGames.size(); i++) {
+			int min = videoGames.search(i).getCode();
+
+			for(int j=i+1; j<videoGames.size();j++) {
+				if(videoGames.search(j).getCode() != min) {
+					int temp = videoGames.search(j).getCode();
+					videoGames.search(j).setCode(min);
+					min = temp;
+				}//End if
+			}//End for
+			videoGames.search(i).setCode(min);
+		}//End for
+	}//End sortVideoGamesBySelection
+    
+    public void sortVideoGamesByInsertion() {
+    	
+    }
+    
+    
 }//End Store class
