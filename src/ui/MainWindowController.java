@@ -48,10 +48,10 @@ public class MainWindowController {
                 myStore.registerCashiers(amount);
                 showRegisterShelf();
             } else {
-                showInformationAlert("Cantidad inválida", "La cantidad de cajeros a registrar debe ser mayor a 0", null);
+                showInformationAlert("Cantidad inválida", "La cantidad de cajeros a registrar debe ser mayor a 0.", null);
             }//End if/else
         } catch(NumberFormatException e) {
-            showInformationAlert("Entrada inválida", "La entrada debe ser un número", null);
+            showInformationAlert("Entrada inválida", "La entrada debe ser un número.", null);
         }//End try/catch
     }//End registerCashier
 
@@ -68,6 +68,20 @@ public class MainWindowController {
         stage.setWidth(360.0);
         stage.setResizable(false);
     }//End showRegisterShelf
+
+    @FXML
+    public void registerShelf() {
+        String id = shelfId.getText();
+        if(!id.isEmpty()) {
+            if(myStore.registerShelf(id)) {
+                showInformationAlert("Registro exitoso", "Se ha registrado la estantería correctamente", null);
+            } else {
+                showInformationAlert("Entrada inválida", "Ya existe una estantería con ese identificador. Pruebe con otro.", null);
+            }//End if/else
+        } else {
+            showInformationAlert("Entrada inválida", "Debe llenar el campo de texto.", null);
+        }//End if/else
+    }//End registerShelf
 
     public void showInformationAlert(String title,String msg,String header){
         Alert feedBack = new Alert(Alert.AlertType.INFORMATION);

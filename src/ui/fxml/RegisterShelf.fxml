@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="190.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="190.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/8.0.281" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="71.0" layoutY="28.0" prefHeight="17.0" prefWidth="218.0" text="Registrar estanterías" textAlignment="CENTER">
             <font>
@@ -17,7 +17,7 @@
             </font>
         </Label>
         <TextField fx:id="shelfId" layoutX="149.0" layoutY="78.0" prefHeight="30.0" prefWidth="89.0" />
-        <Button layoutX="248.0" layoutY="78.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="82.0" text="Registrar">
+        <Button layoutX="248.0" layoutY="78.0" mnemonicParsing="false" onAction="#registerShelf" prefHeight="30.0" prefWidth="82.0" text="Registrar">
             <font>
                 <Font name="System Bold" size="14.0" />
             </font>
