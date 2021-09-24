@@ -19,6 +19,8 @@ public class MainWindowController {
     private BorderPane mainPane;
     @FXML
     private TextField amountCashiers;
+    @FXML
+    private TextField shelfId;
 
     public MainWindowController(Store myStore) {
         this.myStore = myStore;
@@ -34,9 +36,38 @@ public class MainWindowController {
         Stage stage = (Stage) mainPane.getScene().getWindow();
         stage.setTitle("");
         stage.setHeight(180.0);
-        stage.setWidth(330.0);
+        stage.setWidth(315.0);
         stage.setResizable(false);
     }//End showRegisterCashier
+
+    @FXML
+    public void registerCashier() throws IOException {
+        try {
+            int amount = Integer.parseInt(amountCashiers.getText());
+            if(amount > 0) {
+                myStore.registerCashiers(amount);
+                showRegisterShelf();
+            } else {
+                showInformationAlert("Cantidad inválida", "La cantidad de cajeros a registrar debe ser mayor a 0", null);
+            }//End if/else
+        } catch(NumberFormatException e) {
+            showInformationAlert("Entrada inválida", "La entrada debe ser un número", null);
+        }//End try/catch
+    }//End registerCashier
+
+    @FXML
+    public void showRegisterShelf() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FOLDER + "RegisterShelf.fxml"));
+        fxmlLoader.setController(this);
+        Parent registerShelf = fxmlLoader.load();
+        mainPane.getChildren().clear();
+        mainPane.setCenter(registerShelf);
+        Stage stage = (Stage) mainPane.getScene().getWindow();
+        stage.setTitle("");
+        stage.setHeight(230.0);
+        stage.setWidth(360.0);
+        stage.setResizable(false);
+    }//End showRegisterShelf
 
     public void showInformationAlert(String title,String msg,String header){
         Alert feedBack = new Alert(Alert.AlertType.INFORMATION);
