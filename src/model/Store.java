@@ -135,8 +135,22 @@ public class Store {
         }//End for
     }//End bubbleSort
 
-    public void pickUpGames() {
-
+    public void pickUpGames(Client client) {
+    	VideoGame game = null;
+    	for (int i = 0; i < client.getGames().size(); i++) {
+    		game = searchVideoGameInShelves(client.getGames().get(i).getCode());
+    		if(game.getQuantity() != 0) {
+    			searchVideoGameInShelves(client.getGames().get(i).getCode()).setQuantity(game.getQuantity()-1);
+    			client.getShoppingCart().push(game);
+    		}//End if
+		}//End for
     }//End pickUpGames
-
+    
+    public void nextClientPickUpGames(Queue<Client> clients) throws QueueException {
+    	int temp = clients.size();
+    	for (int i = 0; i < temp; i++) {
+			pickUpGames(clients.front());
+			clients.enqueue(clients.dequeue());
+		}//End for
+    }//End nextClientPickUpGames;
 }//End Store class
