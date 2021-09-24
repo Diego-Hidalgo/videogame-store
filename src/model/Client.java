@@ -1,6 +1,7 @@
 package model;
 
 import dataStructures.linkedlist.LinkedList;
+import dataStructures.stack.Stack;
 
 public class Client {
 
@@ -8,12 +9,14 @@ public class Client {
 	private int time;
 	private double total;
 	private LinkedList<VideoGame> games;
+	private Stack<VideoGame> shoppingCart;
 
 	public Client(String id) {
 		this.id = id;
-		games = new LinkedList<>();
 		time = 0;
 		total = 0.0;
+		games = new LinkedList<VideoGame>();
+		shoppingCart = new Stack<VideoGame>();
 	}//End Client
 
 	public String getId() {
@@ -47,6 +50,14 @@ public class Client {
 	public void setGames(LinkedList<VideoGame> games) {
 		this.games = games;
 	}//End setGames
+
+	public Stack<VideoGame> getShoppingCart() {
+		return shoppingCart;
+	}//End getShoppingCart
+
+	public void setShoppingCart(Stack<VideoGame> shoppingCart) {
+		this.shoppingCart = shoppingCart;
+	}//End setShoppingCart
 
 	public void addVideoGameToList(VideoGame toAdd) {
 		games.add(toAdd);
