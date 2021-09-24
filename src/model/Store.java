@@ -135,4 +135,8 @@ public class Store {
         }//End for
     }//End bubbleSort
 
+    public void pickUpGames() {
+
+    }//End pickUpGames
+
 }//End Store class

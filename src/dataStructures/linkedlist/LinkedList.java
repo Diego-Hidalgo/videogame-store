@@ -200,8 +200,8 @@ public class LinkedList<E> implements LinkedListInterface<E> {
             size --;
         } else {
             if (isInList(e)) {
-                size--;
                 remove(e, head);
+                size --;
             } else {
                 throw new LinkedListException("The element to remove does not exist in the linked list");
             }//End if/else
