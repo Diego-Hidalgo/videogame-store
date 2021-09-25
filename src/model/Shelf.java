@@ -41,4 +41,9 @@ public class Shelf {
 		return videoGames.remove(code);
 	}//End removeVideoGames
 
+	@Override
+	public String toString() {
+		return identifier;
+	}//End toString
+
 }//End shelf class

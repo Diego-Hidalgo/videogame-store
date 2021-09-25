@@ -5,6 +5,9 @@ import dataStructures.linkedlist.LinkedList;
 import dataStructures.queue.Queue;
 import dataStructures.queue.QueueException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Store {
 
     private Queue<Client> clients;
@@ -16,6 +19,27 @@ public class Store {
         cashiers = new LinkedList<>();
         shelves = new LinkedList<>();
     }//End Store
+
+    public int getShelvesSize() {
+        return shelves.size();
+    }//End getShelvesSize
+
+    public List<String> getShelvesIdAsList() {
+        List<String> list = new ArrayList<String>();
+        for(int i = 0; i < shelves.size(); i ++) {
+            list.add(shelves.get(i).getIdentifier());
+        }//End for
+        return list;
+    }//End getShelvesAsList
+
+    public int getRegisteredGamesAmount() {
+        int amount = 0;
+        for(int i = 0; i < shelves.size(); i ++) {
+            Shelf shelf = shelves.get(i);
+            amount += shelf.getVideoGames().size();
+        }//End for
+        return amount;
+    }//End getRegisteredGamesAmount
 
     public void registerCashiers(int amount) {
         for(int i = 0; i < amount; i ++) {
