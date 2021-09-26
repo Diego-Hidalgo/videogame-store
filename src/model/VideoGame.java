@@ -2,13 +2,15 @@ package model;
 
 public class VideoGame implements Comparable<VideoGame> {
 
+	private String name;
 	private int code;
 	private int quantity;
 	private String shelf;
 	private double price;
 	
-	public VideoGame(int code, int quantity, String shelf, double price) {
+	public VideoGame(int code, String name, int quantity, String shelf, double price) {
 		this.code = code;
+		this.name = name;
 		this.quantity = quantity;
 		this.shelf = shelf;
 		this.price = price;
@@ -21,6 +23,14 @@ public class VideoGame implements Comparable<VideoGame> {
 	public void setCode(int code) {
 		this.code = code;
 	}//End setCode
+
+	public String getName() {
+		return name;
+	}//End getName
+
+	public void setName(String name) {
+		this.name = name;
+	}//End setName
 
 	public int getQuantity() {
 		return quantity;

@@ -65,8 +65,8 @@ public class Store {
         }//End if/else
     }//End registerShelves
 
-    public boolean registerVideoGame(String shelf, int code, int quantity, double price) {
-        VideoGame toAdd = new VideoGame(code, quantity, shelf, price);
+    public boolean registerVideoGame(String shelf, int code, String name, int quantity, double price) {
+        VideoGame toAdd = new VideoGame(code, name, quantity, shelf, price);
         for(int i = 0; i < shelves.size(); i ++) {
             Shelf current = shelves.get(i);
             if(current.getIdentifier().equalsIgnoreCase(shelf)) {
@@ -113,7 +113,7 @@ public class Store {
         Client client = searchClient(id);
         VideoGame aux = searchVideoGameInShelves(code);
         if(aux != null && client != null) {
-            VideoGame toAdd = new VideoGame(code, quantity, aux.getShelf(), aux.getPrice());
+            VideoGame toAdd = new VideoGame(code, aux.getName(), quantity, aux.getShelf(), aux.getPrice());
             client.addVideoGameToList(toAdd);
             return true;
         } else {
@@ -176,5 +176,6 @@ public class Store {
 			pickUpGames(clients.front());
 			clients.enqueue(clients.dequeue());
 		}//End for
-    }//End nextClientPickUpGames;
+    }//End nextClientPickUpGames
+
 }//End Store class

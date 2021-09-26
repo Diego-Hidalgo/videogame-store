@@ -4,14 +4,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="350.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/8.0.281" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="380.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/8.0.281" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="84.0" layoutY="29.0" text="REGISTRAR JUEGOS">
+      <Label layoutX="84.0" layoutY="22.0" text="REGISTRAR JUEGOS">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
-      <VBox alignment="CENTER" layoutX="17.0" layoutY="61.0" prefHeight="229.0" prefWidth="305.0">
+      <VBox alignment="CENTER" layoutX="16.0" layoutY="60.0" prefHeight="260.0" prefWidth="305.0">
          <children>
             <HBox alignment="CENTER" prefHeight="40.0" prefWidth="334.0">
                <children>
@@ -31,8 +31,19 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Pane prefHeight="40.0" prefWidth="35.0" />
+                  <Pane prefHeight="40.0" prefWidth="34.0" />
                   <TextField fx:id="gameCode" prefHeight="25.0" prefWidth="90.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="40.0" prefWidth="334.0">
+               <children>
+                  <Label prefHeight="27.0" prefWidth="96.0" text="Nombre:">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="40.0" prefWidth="18.0" />
+                  <TextField fx:id="gameName" prefHeight="25.0" prefWidth="90.0" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="40.0" prefWidth="334.0">
@@ -42,7 +53,7 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Pane prefHeight="40.0" prefWidth="15.0" />
+                  <Pane prefHeight="40.0" prefWidth="21.0" />
                   <TextField fx:id="gameQuantity" prefHeight="25.0" prefWidth="90.0" />
                </children>
             </HBox>
@@ -54,19 +65,19 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Pane prefHeight="40.0" prefWidth="43.0" />
+                  <Pane prefHeight="40.0" prefWidth="49.0" />
                   <TextField fx:id="gamePrice" prefHeight="25.0" prefWidth="90.0" />
                   <Pane prefHeight="40.0" prefWidth="3.0" />
                </children>
             </HBox>
-            <Pane prefHeight="23.0" prefWidth="305.0" />
+            <Pane prefHeight="15.0" prefWidth="305.0" />
             <Button mnemonicParsing="false" onAction="#registerGames" text="Registrar">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></Button>
          </children>
       </VBox>
-      <HBox alignment="CENTER_RIGHT" layoutX="6.0" layoutY="302.0" prefHeight="40.0" prefWidth="305.0">
+      <HBox alignment="CENTER_RIGHT" layoutX="6.0" layoutY="302.0" prefHeight="74.0" prefWidth="299.0">
          <children>
             <Button mnemonicParsing="false" onAction="#checkGameSize" text="Siguiente">
                <font>

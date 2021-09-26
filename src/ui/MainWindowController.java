@@ -29,6 +29,8 @@ public class MainWindowController {
     @FXML
     private TextField gameCode;
     @FXML
+    private TextField gameName;
+    @FXML
     private TextField gameQuantity;
     @FXML
     private TextField gamePrice;
@@ -112,7 +114,7 @@ public class MainWindowController {
         initializeShelvesComboBox();
         Stage stage = (Stage) mainPane.getScene().getWindow();
         stage.setTitle("");
-        stage.setHeight(395.0);
+        stage.setHeight(415.0);
         stage.setWidth(335.0);
         stage.setResizable(false);
     }//End showRegisterGames
@@ -125,24 +127,30 @@ public class MainWindowController {
 
     public void registerGames() {
         String shelfId = shelfIdComboBox.getValue();
-        if(shelfId == null)
-            showInformationAlert("Estantería vacía", "Debe seleccionar una estantería.", null);
-        try {
-            int code = Integer.parseInt(gameCode.getText());
-            int quantity = Integer.parseInt(gameQuantity.getText());
-            double price = Double.parseDouble(gamePrice.getText());
-            if(myStore.registerVideoGame(shelfId, code, quantity, price)) {
-                showInformationAlert("Registro exitoso", "Se ha registrado el juego exitosamente", null);
-                gameCode.clear();
-                gameQuantity.clear();
-                gamePrice.clear();
-                initializeShelvesComboBox();
-            } else {
-                showInformationAlert("", "No se pudó registrar el juego", null);
-            }//End if/else
-        } catch(NumberFormatException e) {
-            showInformationAlert("Entradas inválidas","El código, la cantidad y el precio debe ser números. Por favor revise los campos y vuelva a intentarlo." , null);
-        }//End try/catch
+        String name = gameName.getText();
+        String c = gameCode.getText();
+        String q = gameQuantity.getText();
+        String p = gameQuantity.getText();
+        if(shelfId == null || name == null || c == null || q == null || p == null)
+            showInformationAlert("Entradas inválidas", "Debe llenar todos los campos.", null);
+        else {
+            try {
+                int code = Integer.parseInt(c);
+                int quantity = Integer.parseInt(q);
+                double price = Double.parseDouble(p);
+                if (myStore.registerVideoGame(shelfId, code, name, quantity, price)) {
+                    showInformationAlert("Registro exitoso", "Se ha registrado el juego exitosamente", null);
+                    gameCode.clear();
+                    gameQuantity.clear();
+                    gamePrice.clear();
+                    initializeShelvesComboBox();
+                } else {
+                    showInformationAlert("", "No se pudó registrar el juego", null);
+                }//End if/else
+            } catch (NumberFormatException e) {
+                showInformationAlert("Entradas inválidas", "El código, la cantidad y el precio debe ser números. Por favor revise los campos y vuelva a intentarlo.", null);
+            }//End try/catch
+        }//End if/else
     }//End registerGames
 
     @FXML
