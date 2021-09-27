@@ -163,6 +163,7 @@ public class Store {
     public void sortClientList(int option, String id) throws QueueException {
         Client client = searchClient(id);
         if(client != null) {
+            client.setTime(clients.getIndex(client));
             switch(option) {
                 case 1:
                     insertionSort(client.getGames());
@@ -209,7 +210,7 @@ public class Store {
 		}//End for
     }//End pickUpGames
     
-    public void nextClientPickUpGames(Queue<Client> clients) throws QueueException {
+    public void nextClientPickUpGames() throws QueueException {
     	int temp = clients.size();
     	for (int i = 0; i < temp; i++) {
 			pickUpGames(clients.front());
