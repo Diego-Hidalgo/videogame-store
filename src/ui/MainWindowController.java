@@ -218,7 +218,7 @@ public class MainWindowController {
         if(!id.isEmpty() && games.length > 0 && quantities.length > 0) {
             if(myStore.registerClient(id)) {
                 int length = games.length;
-                String msg = "Se agregaron todos los juegos correctamente";
+                String msg = "Se agregó exitosamente al cliente junto con su lista de juegos.";
                 for (int i = 0; i < length; i++) {
                     if(!myStore.addVideoGameToClient(id, games[i], quantities[i]))
                         msg = "No se pudieron agregar todos los juegos";
