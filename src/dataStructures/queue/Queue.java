@@ -27,6 +27,7 @@ public class Queue<E> implements QueueInterface<E> {
     @Override
     public void enqueue(E e) {
         Node<E> toEnqueue = new Node<E>(e);
+        toEnqueue.setPosition(size);
         if(rear == null) {
             rear = toEnqueue;
         } else {
@@ -48,6 +49,13 @@ public class Queue<E> implements QueueInterface<E> {
         return toDequeue.getItem();
     }//End dequeue
 
+    private void decreaseIndexes(Node<E> aux) {
+        if(aux != null) {
+            aux.setPosition(aux.getPosition() - 1);
+            decreaseIndexes(aux.getPrevious());
+        }//End if
+    }//End decreaseIndexes
+
     @Override
     public E front() throws QueueException {
         if(front == null)
@@ -61,6 +69,38 @@ public class Queue<E> implements QueueInterface<E> {
             throw new QueueException("Unable to get the rear element because the queue is empty");
         return rear.getItem();
     }//End rear
+
+    @Override
+    public int getIndex(E e) throws QueueException {
+        if(!isInQueue(e))
+            throw new QueueException("Unable to get the index because the element does not exist in the queue");
+        if(isEmpty())
+            throw new QueueException("Unable to get the index of the element because the queue is empty");
+        return getIndex(e, front);
+    }//End getIndex
+
+    private int getIndex(E e, Node<E> aux) {
+        if(aux.getItem() == e)
+            return aux.getPosition();
+        else
+            return getIndex(e, aux.getPrevious());
+    }//End getIndex
+
+    @Override
+    public boolean isInQueue(E e) {
+        return isInQueue(e, front);
+    }//End isInList
+
+    private boolean isInQueue(E e, Node<E> aux) {
+        if(aux == null) {
+            return false;
+        } else {
+            if(aux.getItem() == e)
+                return true;
+            else
+                return isInQueue(e, aux.getPrevious());
+        }//End if/else
+    }//End
 
     public Queue<E> reverse() {
         Queue<E> reversed = new Queue<E>();

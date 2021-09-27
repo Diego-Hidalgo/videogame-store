@@ -16,6 +16,8 @@ public interface LinkedListInterface<E> {
 
     public E get(int index);
 
+    public int getIndex(E e) throws LinkedListException;
+
     public boolean isInList(E e);
 
 }//End LinkedListInterface interface

@@ -235,6 +235,22 @@ public class LinkedList<E> implements LinkedListInterface<E> {
     }//End get
 
     @Override
+    public int getIndex(E e) throws LinkedListException {
+        if(!isInList(e))
+            throw new LinkedListException("Unable to get the index because the element does not exist in the list");
+        if(isEmpty())
+            throw new LinkedListException("Unable to get the index because the list is empty");
+        return getIndex(e, head);
+    }//End getIndex
+
+    private int getIndex(E e, Node<E> aux) {
+        if(aux.getItem() == e)
+            return aux.getPosition();
+        else
+            return getIndex(e, aux.getNext());
+    }//End getIndex
+
+    @Override
     public boolean isInList(E e) {
         return isInList(e, head);
     }//End isInList

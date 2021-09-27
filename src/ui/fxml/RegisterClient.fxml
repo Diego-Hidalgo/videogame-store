@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="436.0" prefWidth="380.0" xmlns="http://javafx.com/javafx/8.0.281" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="436.0" prefWidth="380.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="104.0" layoutY="32.0" text="REGISTRAR CLIENTE">
          <font>
@@ -57,7 +57,7 @@
       </VBox>
       <HBox alignment="CENTER_RIGHT" layoutX="91.0" layoutY="375.0" prefHeight="39.0" prefWidth="260.0">
          <children>
-            <Button mnemonicParsing="false" text="Siguiente">
+            <Button mnemonicParsing="false" onAction="#checkClientsAmount" text="Siguiente">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>

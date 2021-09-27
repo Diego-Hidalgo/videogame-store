@@ -6,14 +6,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Store;
-
 import java.io.IOException;
 
 public class MainWindowController {
@@ -236,6 +233,27 @@ public class MainWindowController {
             showInformationAlert("Entradas inválidas", "Deben llenarse todos los campos.", null);
         }//End if/else
     }//End registerClient
+
+    @FXML
+    public void checkClientsAmount() throws IOException {
+        if(myStore.getClientsAmount() > 0)
+            showClients();
+        else
+            showInformationAlert("", "Debe registrar por lo menos un cliente para continuar", null);
+    }//End checkClientsAmount
+
+    private void showClients() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FOLDER + "ShowClients.fxml"));
+        fxmlLoader.setController(this);
+        Parent showClients = fxmlLoader.load();
+        mainPane.getChildren().clear();
+        mainPane.setCenter(showClients);
+        Stage stage = (Stage) mainPane.getScene().getWindow();
+        stage.setTitle("");
+        stage.setHeight(390.0);
+        stage.setWidth(650.0);
+        stage.setResizable(false);
+    }//End showClients
 
     public void showInformationAlert(String title,String msg,String header){
         Alert feedBack = new Alert(Alert.AlertType.INFORMATION);

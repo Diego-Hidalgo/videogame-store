@@ -27,6 +27,7 @@ public class Stack<E> implements StackInterface<E> {
     @Override
     public void push(E e) {
         Node<E> toPush = new Node<E>(e);
+        toPush.setPosition(size);
         toPush.setNext(top);
         top = toPush;
         size ++;
@@ -59,6 +60,38 @@ public class Stack<E> implements StackInterface<E> {
             throw new StackException("Unable to get the bottom element because the stack is empty");
         return bottom.getItem();
     }//End peek
+
+    @Override
+    public int getIndex(E e) throws StackException {
+        if(!isInStack(e))
+            throw new StackException("Unable to get the index because the element does not exist in the stack");
+        if(isEmpty())
+            throw new StackException("Unable to get the index because the stack is empty");
+        return getIndex(e, top);
+    }//End getIndex
+
+    private int getIndex(E e, Node<E> aux) {
+        if(aux.getItem() == e)
+            return aux.getPosition();
+        else
+            return getIndex(e, aux.getNext());
+    }//End getIndex
+
+    @Override
+    public boolean isInStack(E e) {
+        return isInStack(e, top);
+    }//End isInList
+
+    private boolean isInStack(E e, Node<E> aux) {
+        if(aux == null) {
+            return false;
+        } else {
+            if(aux.getItem() == e)
+                return true;
+            else
+                return isInStack(e, aux.getNext());
+        }//End if/else
+    }//End isInList
 
     public Stack<E> reverse() {
         Stack<E> reverse = new Stack<E>();

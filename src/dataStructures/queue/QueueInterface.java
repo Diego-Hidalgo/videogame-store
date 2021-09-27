@@ -14,4 +14,8 @@ public interface QueueInterface<E> {
 
     public E rear() throws QueueException;
 
+    public int getIndex(E e) throws QueueException;
+
+    public boolean isInQueue(E e) throws QueueException;
+
 }//End QueueInterface

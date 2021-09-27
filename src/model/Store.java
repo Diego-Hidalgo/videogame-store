@@ -74,6 +74,10 @@ public class Store {
             return -1;
     }//End getVideoGameQuantity
 
+    public int getClientsAmount() {
+        return clients.size();
+    }//End getClientsAmount
+
     public void registerCashiers(int amount) {
         for(int i = 0; i < amount; i ++) {
             cashiers.add(new Cashier(false));

@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.Client;
 import model.Store;
 
 import java.io.IOException;
@@ -118,6 +119,22 @@ public class EmergentWindowController {
         gameToAdd = code + "x" + quantity;
         closeEmergentWindow(e);
     }//End addGameToList
+
+    @FXML
+    public void showClientData(Client client) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FOLDER + ""));
+        fxmlLoader.setController(this);
+        Parent root = fxmlLoader.load();
+        Scene scene = new Scene(root, null);
+        Stage form = new Stage();
+        form.initModality(Modality.APPLICATION_MODAL);
+        form.setTitle("");
+        form.setScene(scene);
+        form.setHeight(390.0);
+        form.setWidth(530.0);
+        form.setResizable(false);
+        form.showAndWait();
+    }//End showClientData
 
     private void closeEmergentWindow(ActionEvent e) {
         Node source = (Node) e.getSource();

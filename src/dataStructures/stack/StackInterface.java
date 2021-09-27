@@ -14,4 +14,8 @@ public interface StackInterface<E> {
 
     public E bottom() throws StackException;
 
+    public int getIndex(E e) throws StackException;
+
+    public boolean isInStack(E e) throws StackException;
+
 }//End StackInterface interface
