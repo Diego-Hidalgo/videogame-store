@@ -41,6 +41,10 @@ public class Shelf {
 		return videoGames.remove(code);
 	}//End removeVideoGames
 
+	public Object[] getAllGamesCodes() {
+		return videoGames.getAllKeys();
+	}//End getAllGamesCodes
+
 	@Override
 	public String toString() {
 		return identifier;

@@ -71,7 +71,7 @@ public class HashTable<K, V> implements HashTableInterface<K, V> {
                     return entries[j].getValue();
             }//End if
             i ++;
-        } while(entries[j] != null || i != capacity);
+        } while(i != capacity);
         return null;
     }//End search
 
@@ -91,5 +91,15 @@ public class HashTable<K, V> implements HashTableInterface<K, V> {
         }//End if
         return false;
     }//End remove
+
+    public K[] getAllKeys() {
+        K[] keys = (K[]) new Object[count];
+        int j = 0;
+        for(int i = 0; i < capacity; i ++) {
+            if(entries[i] != null)
+                keys[j ++] = entries[i].getKey();
+        }//End for
+        return keys;
+    }//End getAllKeys
 
 }//End HashTable class

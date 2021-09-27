@@ -1,5 +1,6 @@
 package ui;
 
+import dataStructures.queue.QueueException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -7,23 +8,29 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Store;
+
 import java.io.IOException;
 
 public class MainWindowController {
 
-    final private String FOLDER = "fxml/";
+    private final String FOLDER = "fxml/";
+    private EmergentWindowController EWC;
     private Store myStore;
 
     @FXML
     private BorderPane mainPane;
+    //Cashier
     @FXML
     private TextField amountCashiers;
+    //Shelf
     @FXML
     private TextField shelfId;
+    //VideoGame
     @FXML
     private ComboBox<String> shelfIdComboBox;
     @FXML
@@ -34,9 +41,15 @@ public class MainWindowController {
     private TextField gameQuantity;
     @FXML
     private TextField gamePrice;
+    //Client
+    @FXML
+    private TextField clientId;
+    @FXML
+    private ListView<String> gamesList;
 
     public MainWindowController(Store myStore) {
         this.myStore = myStore;
+        EWC = new EmergentWindowController(myStore);
     }//End Constructor
 
     @FXML
@@ -130,7 +143,7 @@ public class MainWindowController {
         String name = gameName.getText();
         String c = gameCode.getText();
         String q = gameQuantity.getText();
-        String p = gameQuantity.getText();
+        String p = gamePrice.getText();
         if(shelfId == null || name == null || c == null || q == null || p == null)
             showInformationAlert("Entradas inválidas", "Debe llenar todos los campos.", null);
         else {
@@ -138,8 +151,11 @@ public class MainWindowController {
                 int code = Integer.parseInt(c);
                 int quantity = Integer.parseInt(q);
                 double price = Double.parseDouble(p);
-                if (myStore.registerVideoGame(shelfId, code, name, quantity, price)) {
+                if(quantity <= 0 || price <= 0.0) {
+                    showInformationAlert("Entradas inválidas", "La cantidad y el precio deben ser mayores a cero", null);
+                } else if (myStore.registerVideoGame(shelfId, code, name, quantity, price)) {
                     showInformationAlert("Registro exitoso", "Se ha registrado el juego exitosamente", null);
+                    gameName.clear();
                     gameCode.clear();
                     gameQuantity.clear();
                     gamePrice.clear();
@@ -162,11 +178,63 @@ public class MainWindowController {
     }//End checkGamesSize
 
     public void showRegisterClient() throws IOException {
-
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FOLDER + "RegisterClient.fxml"));
+        fxmlLoader.setController(this);
+        Parent registerClient = fxmlLoader.load();
+        mainPane.getChildren().clear();
+        mainPane.setCenter(registerClient);
+        Stage stage = (Stage) mainPane.getScene().getWindow();
+        stage.setTitle("");
+        stage.setHeight(460.0);
+        stage.setWidth(380.0);
+        stage.setResizable(false);
     }//End showRegisterClient
 
-    public void registerClient() {
+    private int[] getGamesCodesInList() {
+        int[] codes = new int[gamesList.getItems().size()];
+        for(int i = 0; i < codes.length; i ++) {
+            String[] auxArray = gamesList.getItems().get(i).split("x");
+            codes[i] = Integer.parseInt(auxArray[0]);
+        }//End for
+        return codes;
+    }//End getGamesCodesInList
 
+    private int[] getGamesQuantities() {
+        int[] quantities = new int[gamesList.getItems().size()];
+        for(int i = 0; i < quantities.length; i ++) {
+            String[] auxArray = gamesList.getItems().get(i).split("x");
+            quantities[i] = Integer.parseInt(auxArray[1]);
+        }//End for
+        return quantities;
+    }//End getGamesQuantities
+
+    public void addGamesToList() throws IOException {
+        EWC.showSelectGame(getGamesCodesInList());
+        if(EWC.getAdded())
+            gamesList.getItems().add(EWC.getGameToAdd());
+    }//End addGamesToList
+
+    public void registerClient() throws QueueException {
+        String id = clientId.getText();
+        int[] games = getGamesCodesInList();
+        int[] quantities = getGamesQuantities();
+        if(!id.isEmpty() && games.length > 0 && quantities.length > 0) {
+            if(myStore.registerClient(id)) {
+                int length = games.length;
+                String msg = "Se agregaron todos los juegos correctamente";
+                for (int i = 0; i < length; i++) {
+                    if(!myStore.addVideoGameToClient(id, games[i], quantities[i]))
+                        msg = "No se pudieron agregar todos los juegos";
+                }//End for
+                showInformationAlert("", msg, null);
+                clientId.clear();
+                gamesList.getItems().clear();
+            } else {
+                showInformationAlert("Registro incompleto", "La identificación ya se encuentra en uso.", null);
+            }//End if/else
+        } else {
+            showInformationAlert("Entradas inválidas", "Deben llenarse todos los campos.", null);
+        }//End if/else
     }//End registerClient
 
     public void showInformationAlert(String title,String msg,String header){

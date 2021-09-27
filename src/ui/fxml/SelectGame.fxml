@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="350.0" prefWidth="383.0" xmlns="http://javafx.com/javafx/8.0.281" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="118.0" layoutY="14.0" text="Seleccionar juego">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <VBox layoutX="28.0" layoutY="51.0" prefHeight="236.0" prefWidth="328.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="40.0" prefWidth="328.0">
+               <children>
+                  <Label prefHeight="27.0" prefWidth="99.0" text="Código:">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="gamesCodesComboBox" onAction="#setInfoText" prefWidth="135.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="42.0" prefWidth="328.0">
+               <children>
+                  <Label prefHeight="27.0" prefWidth="137.0" text="Cantidad:">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="gameQuantity" onKeyReleased="#checkQuantity" prefHeight="25.0" prefWidth="96.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT">
+               <children>
+                  <Label fx:id="checkLabel" prefHeight="15.0" prefWidth="203.0" textFill="RED">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <VBox alignment="TOP_CENTER" prefHeight="144.0" prefWidth="328.0">
+               <children>
+                  <Pane prefHeight="10.0" prefWidth="328.0" />
+                  <Label text="Información">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="gameInfo" editable="false" prefHeight="120.0" prefWidth="328.0" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER" layoutX="125.0" layoutY="296.0" prefHeight="40.0" prefWidth="135.0">
+         <children>
+            <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addGameToList" text="Agregar">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Button>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

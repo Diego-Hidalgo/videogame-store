@@ -4,7 +4,6 @@ import dataStructures.hashtable.HashTableException;
 import dataStructures.linkedlist.LinkedList;
 import dataStructures.queue.Queue;
 import dataStructures.queue.QueueException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +31,27 @@ public class Store {
         return list;
     }//End getShelvesAsList
 
+    public List<Integer> getGamesCodesAsList(int[] gamesInList) {
+        List<Integer> list = new ArrayList<>();
+        for(int i = 0; i < shelves.size(); i ++) {
+            Shelf shelf = shelves.get(i);
+            Object[] codes = shelf.getAllGamesCodes();
+            for(Object code : codes) {
+                if(!isInClientList((int) code, gamesInList))
+                    list.add((Integer) code);
+            }//End for
+        }//End for
+        return list;
+    }//End getGamesCodesAsList
+
+    private boolean isInClientList(int value, int[] array) {
+        for(int j : array) {
+            if(j == value)
+                return true;
+        }//End for
+        return false;
+    }//End isInClientList
+
     public int getRegisteredGamesAmount() {
         int amount = 0;
         for(int i = 0; i < shelves.size(); i ++) {
@@ -40,6 +60,19 @@ public class Store {
         }//End for
         return amount;
     }//End getRegisteredGamesAmount
+
+    public String getVideoGameInfo(int id) {
+        VideoGame game = searchVideoGameInShelves(id);
+        return game.getInfo();
+    }//End getVideoGameInfo
+
+    public int getVideoGameQuantity(int code) {
+        VideoGame game = searchVideoGameInShelves(code);
+        if(game != null)
+            return game.getQuantity();
+        else
+            return -1;
+    }//End getVideoGameQuantity
 
     public void registerCashiers(int amount) {
         for(int i = 0; i < amount; i ++) {
@@ -66,6 +99,8 @@ public class Store {
     }//End registerShelves
 
     public boolean registerVideoGame(String shelf, int code, String name, int quantity, double price) {
+        if(searchVideoGameInShelves(code) != null)
+            return false;
         VideoGame toAdd = new VideoGame(code, name, quantity, shelf, price);
         for(int i = 0; i < shelves.size(); i ++) {
             Shelf current = shelves.get(i);
@@ -112,7 +147,7 @@ public class Store {
     public boolean addVideoGameToClient(String id, int code, int quantity) throws QueueException {
         Client client = searchClient(id);
         VideoGame aux = searchVideoGameInShelves(code);
-        if(aux != null && client != null) {
+        if(aux != null && client != null && !client.searchGameInList(aux)) {
             VideoGame toAdd = new VideoGame(code, aux.getName(), quantity, aux.getShelf(), aux.getPrice());
             client.addVideoGameToList(toAdd);
             return true;

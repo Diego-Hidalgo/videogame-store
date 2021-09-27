@@ -63,6 +63,10 @@ public class Client {
 		games.add(toAdd);
 	}//End addVideoGameToList
 
+	public boolean searchGameInList(VideoGame game) {
+		return games.isInList(game);
+	}//End searchGameInList
+
 	@Override
 	public String toString() {
 		String info = "";

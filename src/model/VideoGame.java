@@ -56,13 +56,19 @@ public class VideoGame implements Comparable<VideoGame> {
 		this.price = price;
 	}//End setPrice
 
+	public String getInfo() {
+		String info = "";
+		info += "Estantería: " + shelf +
+				"\nCódigo: " + code +
+				"\nNombre: " + name +
+				"\nPrecio: $" + price +
+				"\nCantidad disponible: " + quantity;
+		return info;
+	}//End getInfo
+
 	@Override
 	public String toString() {
-		String info = "";
-		info = "\nEstantería: " + shelf +
-				"\nCódigo: " + code +
-				"\nCantidad: " + quantity +
-				"\nPrecio: $" + price;
+		String info = shelf + code + ": " + name + " $" + price;
 		return info;
 	}//End toString
 
