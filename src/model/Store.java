@@ -4,6 +4,8 @@ import dataStructures.hashtable.HashTableException;
 import dataStructures.linkedlist.LinkedList;
 import dataStructures.queue.Queue;
 import dataStructures.queue.QueueException;
+import dataStructures.stack.Stack;
+import dataStructures.stack.StackException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +14,13 @@ public class Store {
     private Queue<Client> clients;
     private LinkedList<Cashier> cashiers;
     private LinkedList<Shelf> shelves;
+    private Queue<Client> exitQueue;
 
     public Store() {
         clients = new Queue<>();
         cashiers = new LinkedList<>();
         shelves = new LinkedList<>();
+        exitQueue = new Queue<>();
     }//End Store
 
     public int getShelvesSize() {
@@ -80,7 +84,7 @@ public class Store {
 
     public void registerCashiers(int amount) {
         for(int i = 0; i < amount; i ++) {
-            cashiers.add(new Cashier(false));
+            cashiers.add(new Cashier());
         }//End for
     }//End registerCashiers
 
@@ -163,7 +167,7 @@ public class Store {
     public void sortClientList(int option, String id) throws QueueException {
         Client client = searchClient(id);
         if(client != null) {
-            client.setTime(clients.getIndex(client));
+            client.setTime(clients.getIndex(client) + 1);
             switch(option) {
                 case 1:
                     insertionSort(client.getGames());
@@ -175,9 +179,9 @@ public class Store {
         }//End if
     }//End sortClientList
 
-    private void insertionSort(LinkedList<VideoGame> list) {
+    private <E extends Comparable<E>> void insertionSort(LinkedList<E> list) {
         for(int i = 1; i < list.size(); i ++) {
-            VideoGame key = list.get(i);
+            E key = list.get(i);
             int j = i - 1;
             while(j >= 0 && list.get(j).compareTo(key) > 0) {
                 list.setElement(j + 1, list.get(j));
@@ -187,11 +191,11 @@ public class Store {
         }//End for
     }//End insertionSort
 
-    private void bubbleSort(LinkedList<VideoGame> list) {
+    private <E extends Comparable<E>> void bubbleSort(LinkedList<E> list) {
         for(int i = 0; i < list.size(); i ++) {
             for(int j = 1; j < (list.size() - i); j ++) {
                 if(list.get(j - 1).compareTo(list.get(j)) > 0) {
-                    VideoGame aux = list.get(j - 1);
+                    E aux = list.get(j - 1);
                     list.setElement(j - 1, list.get(j));
                     list.setElement(j, aux);
                 }//End if
@@ -199,25 +203,103 @@ public class Store {
         }//End for
     }//End bubbleSort
 
-    public void pickUpGames(Client client) {
-    	VideoGame game = null;
+    public void pickUpGames() {
+        int temp = clients.size();
+        for (int i = 0; i < temp; i++) {
+            try {
+                pickUpGames(clients.front());
+                clients.enqueue(clients.dequeue());
+            } catch(QueueException ignored) {}
+        }//End for
+    }//End nextClientPickUpGames
+
+    private void pickUpGames(Client client) {
     	for (int i = 0; i < client.getGames().size(); i++) {
     	    int amount = client.getGames().get(i).getQuantity();
-    		game = searchVideoGameInShelves(client.getGames().get(i).getCode());
+    		VideoGame game = searchVideoGameInShelves(client.getGames().get(i).getCode());
     		while(game.getQuantity() > 0 && amount > 0) {
     			game.setQuantity(game.getQuantity() - 1);
-    			client.getShoppingCart().push(game);
+    			client.getCart().push(game);
+    			client.setTime(client.getTime() + 1);
     			-- amount;
     		}//End if
 		}//End for
     }//End pickUpGames
-    
-    public void pickUpGames() throws QueueException {
-    	int temp = clients.size();
-    	for (int i = 0; i < temp; i++) {
-			pickUpGames(clients.front());
-			clients.enqueue(clients.dequeue());
-		}//End for
-    }//End nextClientPickUpGames
+
+    public void setCheckOutQueue() {
+        LinkedList<Client> aux = new LinkedList<Client>();
+        int size = clients.size();
+        for(int i = 0; i < size; i ++) {
+            try {
+                aux.add(clients.dequeue());
+            } catch(QueueException ignored) {}
+        }//End for
+        insertionSort(aux);
+        for(int i = 0; i < aux.size(); i ++) {
+            clients.enqueue(aux.get(i));
+        }//End for
+    }//End checkOutQueue
+
+    public void checkOut() {
+        int temp = clients.size();
+        while(exitQueue.size() != temp) {
+            while(!cashiersAreFull() && !clients.isEmpty()) {
+                try {
+                    assignClientToCashier(clients.dequeue());
+                } catch (QueueException ignored) {}
+            }//End while
+            addGamesToBag();
+        }//End while
+    }//End checkOut
+
+    private boolean cashiersAreFull() {
+        for(int i = 0; i < cashiers.size(); i ++) {
+            Cashier cashier = cashiers.get(i);
+            if(!cashier.getInUse())
+                return false;
+        }//End for
+        return true;
+    }//End cashiersAreFull
+
+    private void assignClientToCashier(Client toAssign) {
+        for(int i = 0; i < cashiers.size(); i ++) {
+            Cashier cashier = cashiers.get(i);
+            if(!cashier.getInUse()) {
+                cashier.setCurrent(toAssign);
+                cashier.setInUse(true);
+                return;
+            }//End if
+        }//End for
+    }//End assignClientsToCashiers
+
+    private void addGamesToBag() {
+        for(int i = 0; i < cashiers.size(); i ++) {
+            Cashier cashier = cashiers.get(i);
+            if(cashier.getInUse()) {
+                Client client = cashier.getCurrent();
+                Stack<VideoGame> cart = client.getCart();
+                try {
+                    VideoGame game = cart.pop();
+                    client.getBag().push(game);
+                    client.setTotal(client.getTotal() + game.getPrice());
+                } catch (StackException ignored) {}
+                if(cart.isEmpty()) {
+                    exitQueue.enqueue(client);
+                    cashier.setInUse(false);
+                    cashier.setCurrent(null);
+                }//End if
+            }//End if
+        }//End for
+    }//End addGamesToBag
+
+    public String exitOrder() throws QueueException {
+        String info = "";
+        int temp = exitQueue.size();
+        for(int i = 0; i < temp; i ++) {
+            info += "\n[" + (i+1) + "]"  + exitQueue.dequeue().toString() + "\n";
+        }//End for
+        return info;
+    }//End exitOrder
+
 
 }//End Store class

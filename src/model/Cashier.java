@@ -5,8 +5,8 @@ public class Cashier {
 	private Client current;
 	private boolean inUse;
 
-	public Cashier(boolean inUse) {
-		this.inUse = inUse;
+	public Cashier() {
+		inUse = false;
 		current = null;
 	}//End Constructor
 
@@ -16,7 +16,6 @@ public class Cashier {
 
 	public void setCurrent(Client current) {
 		this.current = current;
-		inUse = true;
 	}//End setCurrent
 
 	public void removeCurrent() {

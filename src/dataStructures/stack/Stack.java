@@ -103,4 +103,15 @@ public class Stack<E> implements StackInterface<E> {
         return  reverse;
     }//End reverse
 
+    @Override
+    public String toString() {
+        String info = "";
+        Node<E> aux = top;
+        while(aux != null) {
+            info += "\n" + aux.getItem().toString();
+            aux = aux.getNext();
+        }//End while
+        return info;
+    }//End toString
+
 }//End Stack class

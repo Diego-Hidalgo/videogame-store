@@ -3,20 +3,22 @@ package model;
 import dataStructures.linkedlist.LinkedList;
 import dataStructures.stack.Stack;
 
-public class Client {
+public class Client implements Comparable<Client> {
 
 	private String id;
 	private int time;
 	private double total;
 	private LinkedList<VideoGame> games;
-	private Stack<VideoGame> shoppingCart;
+	private Stack<VideoGame> cart;
+	private Stack<VideoGame> bag;
 
 	public Client(String id) {
 		this.id = id;
 		time = 0;
 		total = 0.0;
 		games = new LinkedList<VideoGame>();
-		shoppingCart = new Stack<VideoGame>();
+		cart = new Stack<VideoGame>();
+		bag = new Stack<VideoGame>();
 	}//End Client
 
 	public String getId() {
@@ -51,13 +53,21 @@ public class Client {
 		this.games = games;
 	}//End setGames
 
-	public Stack<VideoGame> getShoppingCart() {
-		return shoppingCart;
-	}//End getShoppingCart
+	public Stack<VideoGame> getCart() {
+		return cart;
+	}//End getCart
 
-	public void setShoppingCart(Stack<VideoGame> shoppingCart) {
-		this.shoppingCart = shoppingCart;
-	}//End setShoppingCart
+	public void setCart(Stack<VideoGame> cart) {
+		this.cart = cart;
+	}//End setCart
+
+	public Stack<VideoGame> getBag() {
+		return bag;
+	}//End getBag
+
+	public void setBag(Stack<VideoGame> bag) {
+		this.bag = bag;
+	}//End setBag
 
 	public void addVideoGameToList(VideoGame toAdd) {
 		games.add(toAdd);
@@ -71,10 +81,15 @@ public class Client {
 	public String toString() {
 		String info = "";
 		info = "\nId: " + id +
-				"\nTiempo: " + time + " s" +
-				"\n--- JUEGOS ---" + games.toString() +
+				"\nTiempo: " + time + " minutos" +
+				"\n--- JUEGOS ---" + bag.toString() + "\n--------------" +
 				"\nTotal: $" + total;
 		return info;
 	}//End toString
 
+	@Override
+	public int compareTo(Client o) {
+		return Integer.compare(time, o.getTime());
+	}//End compareTo
+	
 }//End Client class
