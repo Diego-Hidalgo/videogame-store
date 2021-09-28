@@ -116,7 +116,7 @@ public class Store {
         return false;
     }//End registerVideoGame
 
-    private Client searchClient(String id) throws QueueException {
+    public Client searchClient(String id) throws QueueException {
         Queue<Client> aux = clients.reverse();
         while(!aux.isEmpty()) {
             Client client = aux.dequeue();
