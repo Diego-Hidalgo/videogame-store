@@ -202,15 +202,17 @@ public class Store {
     public void pickUpGames(Client client) {
     	VideoGame game = null;
     	for (int i = 0; i < client.getGames().size(); i++) {
+    	    int amount = client.getGames().get(i).getQuantity();
     		game = searchVideoGameInShelves(client.getGames().get(i).getCode());
-    		if(game.getQuantity() != 0) {
-    			searchVideoGameInShelves(client.getGames().get(i).getCode()).setQuantity(game.getQuantity()-1);
+    		while(game.getQuantity() > 0 && amount > 0) {
+    			game.setQuantity(game.getQuantity() - 1);
     			client.getShoppingCart().push(game);
+    			-- amount;
     		}//End if
 		}//End for
     }//End pickUpGames
     
-    public void nextClientPickUpGames() throws QueueException {
+    public void pickUpGames() throws QueueException {
     	int temp = clients.size();
     	for (int i = 0; i < temp; i++) {
 			pickUpGames(clients.front());
