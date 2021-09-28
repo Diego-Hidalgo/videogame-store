@@ -14,9 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Client;
 import model.Store;
-
 import java.io.IOException;
-import java.util.Collections;
 
 public class EmergentWindowController {
 

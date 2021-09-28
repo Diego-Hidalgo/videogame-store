@@ -146,8 +146,9 @@ public class Store {
     private VideoGame searchVideoGameInShelves(int code) {
         for(int i = 0; i < shelves.size(); i ++) {
             Shelf shelf = shelves.get(i);
-            if(shelf.searchVideoGame(code) != null)
-                return shelf.searchVideoGame(code);
+            VideoGame game = shelf.searchVideoGame(code);
+            if(game != null)
+                return game;
         }//End for
         return null;
     }//End searchVideoGameInShelves
