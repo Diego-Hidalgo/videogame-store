@@ -250,7 +250,8 @@ public class Store {
     }//End sortClientList
 
     private <E extends Comparable<E>> void insertionSort(LinkedList<E> list) {
-        for(int i = 1; i < list.size(); i ++) {
+        int n = list.size();
+    	for(int i = 1; i < n; i ++) {
             E key = list.get(i);
             int j = i - 1;
             while(j >= 0 && list.get(j).compareTo(key) > 0) {
@@ -262,8 +263,9 @@ public class Store {
     }//End insertionSort
 
     private <E extends Comparable<E>> void bubbleSort(LinkedList<E> list) {
-        for(int i = 0; i < list.size(); i ++) {
-            for(int j = 1; j < (list.size() - i); j ++) {
+    	int n = list.size();
+    	for(int i = 0; i < n; i ++) {
+            for(int j = 1; j < (n - i); j ++) {
                 if(list.get(j - 1).compareTo(list.get(j)) > 0) {
                     E aux = list.get(j - 1);
                     list.setElement(j - 1, list.get(j));
