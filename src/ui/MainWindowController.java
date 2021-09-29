@@ -278,14 +278,48 @@ public class MainWindowController {
     @FXML
     public void checkSortedClients() throws QueueException, IOException {
         if(myStore.allClientsSorted())
-            showClientsCheckOutQueue();
+            showClientsShoppingCart();
         else
             showInformationAlert("", "No se puede continuar hasta que no se ordenen las listas de todos los clientes.", null);
     }//End checkSortedClients
 
-    private void showClientsCheckOutQueue() throws IOException {
-
+    private void showClientsShoppingCart() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FOLDER + "ClientsShoppingCart.fxml"));
+        fxmlLoader.setController(this);
+        Parent root = fxmlLoader.load();
+        mainPane.getChildren().clear();
+        mainPane.setCenter(root);
+        myStore.pickUpGames();
+        initializeClientsList();
+        Stage stage = (Stage) mainPane.getScene().getWindow();
+        stage.setTitle("");
+        stage.setHeight(400.0);
+        stage.setWidth(315.0);
+        stage.setResizable(false);
     }//End showClientsCheckOutQueue
+
+    @FXML
+    public void showShoppingCartInfo(MouseEvent e) throws IOException {
+        if(e.getClickCount() == 2) {
+            Client selection = clientsList.getSelectionModel().getSelectedItem();
+            if(selection != null)
+                EWC.showClientShoppingCart(selection);
+        }//End if
+    }//End showShoppingCartInfo
+
+    @FXML
+    public void showClientsExitOrder() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FOLDER + "ClientsExitOrder.fxml"));
+        fxmlLoader.setController(this);
+        Parent root = fxmlLoader.load();
+        mainPane.getChildren().clear();
+        mainPane.setCenter(root);
+        Stage stage = (Stage) mainPane.getScene().getWindow();
+        stage.setTitle("");
+        stage.setHeight(390.0);
+        stage.setWidth(315.0);
+        stage.setResizable(false);
+    }//End showClientsExitOrder
 
     public void showInformationAlert(String title,String msg,String header){
         Alert feedBack = new Alert(Alert.AlertType.INFORMATION);

@@ -27,6 +27,7 @@ public class EmergentWindowController {
     private int code;
     private int quantity;
     private String gameToAdd;
+    private Client current;
 
     @FXML
     private ComboBox<Integer> gamesCodesComboBox;
@@ -46,7 +47,10 @@ public class EmergentWindowController {
     private ListView<VideoGame> gamesList;
     @FXML
     private Button sortBtn;
-    private Client current;
+    @FXML
+    private Label timeLabel;
+    @FXML
+    private Label positionLabel;
 
     public EmergentWindowController(Store myStore) {
         this.myStore = myStore;
@@ -142,10 +146,11 @@ public class EmergentWindowController {
         form.setScene(scene);
         initializeSortOptionsComboBox();
         initializeGamesList();
-        idLabel.setText(client.getId());
+        idLabel.setText(current.getId());
+        timeLabel.setText(current.getTime() + " minuto(s)");
         sortBtn.setDisable(true);
         form.setTitle("");
-        form.setHeight(400.0);
+        form.setHeight(440.0);
         form.setWidth(351.0);
         form.setResizable(false);
         form.showAndWait();
@@ -183,10 +188,43 @@ public class EmergentWindowController {
             sortBtn.setDisable(true);
             initializeGamesList();
             initializeSortOptionsComboBox();
+            timeLabel.setText(current.getTime() + " minutos(s)");
         } catch (QueueException ignored) {}
     }//End sortClientList
 
-    private void closeEmergentWindow(ActionEvent e) {
+    public void showClientShoppingCart(Client client) throws IOException  {
+        current = client;
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FOLDER + "ClientSCInfo.fxml"));
+        fxmlLoader.setController(this);
+        Parent root = fxmlLoader.load();
+        Scene scene = new Scene(root, null);
+        Stage form = new Stage();
+        form.initModality(Modality.APPLICATION_MODAL);
+        form.setScene(scene);
+        idLabel.setText(current.getId());
+        timeLabel.setText(current.getTime() + " minutos(s)");
+        positionLabel.setText(current.getPosition() + "");
+        initializeCartList();
+        form.setTitle("");
+        form.setHeight(455.0);
+        form.setWidth(351.0);
+        form.setResizable(false);
+        form.showAndWait();
+    }//End showClientShoppingCart
+
+    private void initializeCartList() {
+        try {
+            ObservableList<VideoGame> list = FXCollections.observableList(myStore.getClientShoppingCartAsList(current));
+            gamesList.setItems(list);
+        } catch (QueueException ignored) {}
+    }//End initializeCartList
+
+    public void showClientShoppingBag(Client client) throws IOException {
+        current = client;
+    }//End showClientShoppingBag
+
+    @FXML
+    public void closeEmergentWindow(ActionEvent e) {
         Node source = (Node) e.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();

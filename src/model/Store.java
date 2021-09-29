@@ -7,6 +7,7 @@ import dataStructures.queue.QueueException;
 import dataStructures.stack.Stack;
 import dataStructures.stack.StackException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Store {
@@ -69,11 +70,22 @@ public class Store {
         return list;
     }//End getClientGamesAsList
 
+    public List<VideoGame> getClientShoppingCartAsList(Client client) throws QueueException {
+        List<VideoGame> list = new ArrayList<>();
+        Stack<VideoGame> shoppingCart = searchClient(client.getId()).getCart().reverse().reverse();
+        while(!shoppingCart.isEmpty()) {
+            try {
+                list.add(shoppingCart.pop());
+            } catch(StackException ignored) {}
+        }//End while
+        return list;
+    }//End getClientShoppingCartAsList
+
     public boolean allClientsSorted() throws QueueException {
         Queue<Client> aux = clients.reverse();
         while(!aux.isEmpty()) {
             Client client = aux.dequeue();
-            if(client.getGames().size() > 1 && !client.getSorted())
+            if(!client.getSorted())
                 return false;
         }//End while
         return true;
@@ -246,6 +258,7 @@ public class Store {
                 clients.enqueue(clients.dequeue());
             } catch(QueueException ignored) {}
         }//End for
+        setCheckOutQueue();
     }//End nextClientPickUpGames
 
     private void pickUpGames(Client client) {
@@ -262,7 +275,7 @@ public class Store {
 		}//End for
     }//End pickUpGames
 
-    public void setCheckOutQueue() {
+    private void setCheckOutQueue() {
         LinkedList<Client> aux = new LinkedList<Client>();
         int size = clients.size();
         for(int i = 0; i < size; i ++) {
