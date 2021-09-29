@@ -29,6 +29,7 @@ public class Main extends Application {
         fxmlLoader.setController(mwc);
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root, null);
+        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         window.setScene(scene);
         window.setTitle("");
         window.show();

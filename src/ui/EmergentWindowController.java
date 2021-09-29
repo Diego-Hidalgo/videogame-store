@@ -74,6 +74,7 @@ public class EmergentWindowController {
         fxmlLoader.setController(this);
         Parent selectGame = fxmlLoader.load();
         Scene scene = new Scene(selectGame, null);
+        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
@@ -144,6 +145,7 @@ public class EmergentWindowController {
         fxmlLoader.setController(this);
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root, null);
+        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         Stage form = new Stage();
         form.initModality(Modality.APPLICATION_MODAL);
         form.setScene(scene);
@@ -200,6 +202,7 @@ public class EmergentWindowController {
         fxmlLoader.setController(this);
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root, null);
+        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         Stage form = new Stage();
         form.initModality(Modality.APPLICATION_MODAL);
         form.setScene(scene);
@@ -227,6 +230,7 @@ public class EmergentWindowController {
         fxmlLoader.setController(this);
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root, null);
+        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         Stage form = new Stage();
         form.initModality(Modality.APPLICATION_MODAL);
         form.setScene(scene);
