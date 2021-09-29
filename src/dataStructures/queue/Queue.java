@@ -45,6 +45,7 @@ public class Queue<E> implements QueueInterface<E> {
             throw new QueueException("Unable to dequeue the front element because the queue is empty");
         Node<E> toDequeue = front;
         front = front.getPrevious();
+        decreaseIndexes(front);
         size --;
         return toDequeue.getItem();
     }//End dequeue

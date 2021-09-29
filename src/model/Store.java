@@ -7,7 +7,6 @@ import dataStructures.queue.QueueException;
 import dataStructures.stack.Stack;
 import dataStructures.stack.StackException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class Store {
@@ -105,7 +104,7 @@ public class Store {
     }//End getClientShoppingBagAsList
 
     public boolean allClientsSorted() throws QueueException {
-        Queue<Client> aux = clients.reverse();
+        Queue<Client> aux = clients.reverse().reverse();
         while(!aux.isEmpty()) {
             Client client = aux.dequeue();
             if(!client.getSorted())
@@ -191,7 +190,7 @@ public class Store {
     }//End registerVideoGame
 
     public Client searchClient(String id) throws QueueException {
-        Queue<Client> aux = clients.reverse();
+        Queue<Client> aux = clients.reverse().reverse();
         while(!aux.isEmpty()) {
             Client client = aux.dequeue();
             if(client.getId().equalsIgnoreCase(id))
@@ -370,5 +369,14 @@ public class Store {
             }//End if
         }//End for
     }//End addGamesToBag
+
+    public String exitOrder() throws QueueException {
+        String info = "";
+        int size = exitQueue.size();
+        for(int i = 0; i < size; i ++) {
+            info +=  "\n[" + (i+1) + "]" + exitQueue.dequeue();
+        }
+        return info;
+    }
 
 }//End Store class

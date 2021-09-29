@@ -55,6 +55,7 @@ public class EmergentWindowController {
     private Label totalLabel;
 
     public EmergentWindowController(Store myStore) {
+        current = null;
         this.myStore = myStore;
         added = false;
     }//End Constructor
@@ -180,13 +181,12 @@ public class EmergentWindowController {
     @FXML
     public void sortClientList(ActionEvent e) {
         int option;
-        String id = idLabel.getText();
         if(sortOptions.getValue().equals("1. Insertion"))
             option = 1;
         else
             option = 2;
         try {
-            myStore.sortClientList(option, id);
+            myStore.sortClientList(option, current.getId());
             sortBtn.setDisable(true);
             initializeGamesList();
             initializeSortOptionsComboBox();
@@ -251,6 +251,7 @@ public class EmergentWindowController {
 
     @FXML
     public void closeEmergentWindow(ActionEvent e) {
+        current = null;
         Node source = (Node) e.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
