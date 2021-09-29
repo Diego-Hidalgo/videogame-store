@@ -314,12 +314,28 @@ public class MainWindowController {
         Parent root = fxmlLoader.load();
         mainPane.getChildren().clear();
         mainPane.setCenter(root);
+        myStore.checkOut();
+        initializeClientsExitList();
         Stage stage = (Stage) mainPane.getScene().getWindow();
         stage.setTitle("");
         stage.setHeight(390.0);
         stage.setWidth(315.0);
         stage.setResizable(false);
     }//End showClientsExitOrder
+
+    public void initializeClientsExitList() {
+        ObservableList<Client> clients = FXCollections.observableList(myStore.getClientsExitAsList());
+        clientsList.setItems(clients);
+    }//End initializeClientsExitList
+
+    @FXML
+    public void showShoppingBag(MouseEvent e) throws IOException {
+        if(e.getClickCount() == 2) {
+            Client selection = clientsList.getSelectionModel().getSelectedItem();
+            if(selection != null)
+                EWC.showClientShoppingBag(selection);
+        }//End if
+    }//ENd showShoppingBag
 
     public void showInformationAlert(String title,String msg,String header){
         Alert feedBack = new Alert(Alert.AlertType.INFORMATION);

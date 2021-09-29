@@ -51,6 +51,8 @@ public class EmergentWindowController {
     private Label timeLabel;
     @FXML
     private Label positionLabel;
+    @FXML
+    private Label totalLabel;
 
     public EmergentWindowController(Store myStore) {
         this.myStore = myStore;
@@ -221,7 +223,31 @@ public class EmergentWindowController {
 
     public void showClientShoppingBag(Client client) throws IOException {
         current = client;
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FOLDER + "ClientSBInfo.fxml"));
+        fxmlLoader.setController(this);
+        Parent root = fxmlLoader.load();
+        Scene scene = new Scene(root, null);
+        Stage form = new Stage();
+        form.initModality(Modality.APPLICATION_MODAL);
+        form.setScene(scene);
+        idLabel.setText(current.getId());
+        timeLabel.setText(current.getTime() + " minutos(s)");
+        positionLabel.setText(current.getPosition() + "");
+        totalLabel.setText("$" + current.getTotal());
+        initializeBagList();
+        form.setTitle("");
+        form.setHeight(470.0);
+        form.setWidth(351.0);
+        form.setResizable(false);
+        form.showAndWait();
     }//End showClientShoppingBag
+
+    private void initializeBagList() {
+        try {
+            ObservableList<VideoGame> list = FXCollections.observableList(myStore.getClientShoppingBagAsList(current));
+            gamesList.setItems(list);
+        } catch (QueueException ignored) {}
+    }//End initializeBagList
 
     @FXML
     public void closeEmergentWindow(ActionEvent e) {

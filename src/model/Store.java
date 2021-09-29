@@ -61,6 +61,18 @@ public class Store {
         return list;
     }//End getClientAsList
 
+    public List<Client> getClientsExitAsList() {
+        List<Client> list = new ArrayList<>();
+        for(int i = 0; i < exitQueue.size(); i ++) {
+            try {
+                Client client = exitQueue.dequeue();
+                list.add(client);
+                exitQueue.enqueue(client);
+            } catch(QueueException ignored) {}
+        }//End for
+        return list;
+    }//End getClientsExitAsList
+
     public List<VideoGame> getClientGamesAsList(Client client) throws QueueException {
         List<VideoGame> list = new ArrayList<>();
         LinkedList<VideoGame> clientList = searchClient(client.getId()).getGames();
@@ -80,6 +92,17 @@ public class Store {
         }//End while
         return list;
     }//End getClientShoppingCartAsList
+
+    public List<VideoGame> getClientShoppingBagAsList(Client client) throws QueueException {
+        List<VideoGame> list = new ArrayList<>();
+        Stack<VideoGame> shoppingBag = searchClient(client.getId()).getBag().reverse().reverse();
+        while(!shoppingBag.isEmpty()) {
+            try {
+                list.add(shoppingBag.pop());
+            } catch(StackException ignored) {}
+        }//End while
+        return list;
+    }//End getClientShoppingBagAsList
 
     public boolean allClientsSorted() throws QueueException {
         Queue<Client> aux = clients.reverse();
@@ -293,10 +316,14 @@ public class Store {
 
     public void checkOut() {
         int temp = clients.size();
+        int aux = clients.size();
         while(exitQueue.size() != temp) {
-            while(!cashiersAreFull() && !clients.isEmpty()) {
+            while(!cashiersAreFull() && aux > 0) {
                 try {
-                    assignClientToCashier(clients.dequeue());
+                    Client client = clients.dequeue();
+                    assignClientToCashier(client);
+                    clients.enqueue(client);
+                    aux --;
                 } catch (QueueException ignored) {}
             }//End while
             addGamesToBag();
@@ -335,6 +362,7 @@ public class Store {
                     client.setTotal(client.getTotal() + game.getPrice());
                 } catch (StackException ignored) {}
                 if(cart.isEmpty()) {
+                    client.setPosition(exitQueue.size() + 1);
                     exitQueue.enqueue(client);
                     cashier.setInUse(false);
                     cashier.setCurrent(null);
