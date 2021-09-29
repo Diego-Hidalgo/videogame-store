@@ -7,9 +7,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import model.Client;
 import model.Store;
+
 import java.io.IOException;
 
 public class MainWindowController {
@@ -42,6 +46,8 @@ public class MainWindowController {
     private TextField clientId;
     @FXML
     private ListView<String> gamesList;
+    @FXML
+    private ListView<Client> clientsList;
 
     public MainWindowController(Store myStore) {
         this.myStore = myStore;
@@ -247,12 +253,39 @@ public class MainWindowController {
         Parent showClients = fxmlLoader.load();
         mainPane.getChildren().clear();
         mainPane.setCenter(showClients);
+        initializeClientsList();
         Stage stage = (Stage) mainPane.getScene().getWindow();
         stage.setTitle("");
-        stage.setHeight(390.0);
-        stage.setWidth(650.0);
+        stage.setHeight(430.0);
+        stage.setWidth(600.0);
         stage.setResizable(false);
     }//End showClients
+
+    private void initializeClientsList() {
+        ObservableList<Client> clients = FXCollections.observableList(myStore.getClientsAsList());
+        clientsList.setItems(clients);
+    }//End initializeClientsList
+
+    @FXML
+    public void chooseSortingMethod(MouseEvent e) throws IOException {
+        if(e.getClickCount() == 2) {
+            Client selection = clientsList.getSelectionModel().getSelectedItem();
+            if(selection != null)
+                EWC.chooseSortingMethod(selection);
+        }//End if
+    }//End chooseSortMethod
+
+    @FXML
+    public void checkSortedClients() throws QueueException, IOException {
+        if(myStore.allClientsSorted())
+            showClientsCheckOutQueue();
+        else
+            showInformationAlert("", "No se puede continuar hasta que no se ordenen las listas de todos los clientes.", null);
+    }//End checkSortedClients
+
+    private void showClientsCheckOutQueue() throws IOException {
+
+    }//End showClientsCheckOutQueue
 
     public void showInformationAlert(String title,String msg,String header){
         Alert feedBack = new Alert(Alert.AlertType.INFORMATION);

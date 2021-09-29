@@ -48,6 +48,37 @@ public class Store {
         return list;
     }//End getGamesCodesAsList
 
+    public List<Client> getClientsAsList() {
+        List<Client> list = new ArrayList<>();
+        for(int i = 0; i < clients.size(); i ++) {
+            try {
+                Client client = clients.dequeue();
+                list.add(client);
+                clients.enqueue(client);
+            } catch(QueueException ignored) {}
+        }//End for
+        return list;
+    }//End getClientAsList
+
+    public List<VideoGame> getClientGamesAsList(Client client) throws QueueException {
+        List<VideoGame> list = new ArrayList<>();
+        LinkedList<VideoGame> clientList = searchClient(client.getId()).getGames();
+        for(int i = 0; i < clientList.size(); i ++) {
+            list.add(clientList.get(i));
+        }//End for
+        return list;
+    }//End getClientGamesAsList
+
+    public boolean allClientsSorted() throws QueueException {
+        Queue<Client> aux = clients.reverse();
+        while(!aux.isEmpty()) {
+            Client client = aux.dequeue();
+            if(client.getGames().size() > 1 && !client.getSorted())
+                return false;
+        }//End while
+        return true;
+    }//End allClientsSorted
+
     private boolean isInClientList(int value, int[] array) {
         for(int j : array) {
             if(j == value)
@@ -136,7 +167,9 @@ public class Store {
 
     public boolean registerClient(String id) throws QueueException {
         if(searchClient(id) == null) {
-            clients.enqueue(new Client(id));
+            Client client = new Client(id);
+            client.setPosition(clients.size() + 1);
+            clients.enqueue(client);
             return true;
         } else {
             return false;
@@ -169,6 +202,7 @@ public class Store {
         Client client = searchClient(id);
         if(client != null) {
             client.setTime(clients.getIndex(client) + 1);
+            client.setSorted(true);
             switch(option) {
                 case 1:
                     insertionSort(client.getGames());
@@ -220,7 +254,8 @@ public class Store {
     		VideoGame game = searchVideoGameInShelves(client.getGames().get(i).getCode());
     		while(game.getQuantity() > 0 && amount > 0) {
     			game.setQuantity(game.getQuantity() - 1);
-    			client.getCart().push(game);
+    			VideoGame toPush = new VideoGame(game.getCode(), game.getName(), 1, game.getShelf(), game.getPrice());
+    			client.getCart().push(toPush);
     			client.setTime(client.getTime() + 1);
     			-- amount;
     		}//End if
@@ -237,7 +272,9 @@ public class Store {
         }//End for
         insertionSort(aux);
         for(int i = 0; i < aux.size(); i ++) {
-            clients.enqueue(aux.get(i));
+            Client client = aux.get(i);
+            client.setPosition(clients.size() + 1);
+            clients.enqueue(client);
         }//End for
     }//End checkOutQueue
 
@@ -292,15 +329,5 @@ public class Store {
             }//End if
         }//End for
     }//End addGamesToBag
-
-    public String exitOrder() throws QueueException {
-        String info = "";
-        int temp = exitQueue.size();
-        for(int i = 0; i < temp; i ++) {
-            info += "\n[" + (i+1) + "]"  + exitQueue.dequeue().toString() + "\n";
-        }//End for
-        return info;
-    }//End exitOrder
-
 
 }//End Store class

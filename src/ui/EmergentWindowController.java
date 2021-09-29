@@ -1,5 +1,6 @@
 package ui;
 
+import dataStructures.queue.QueueException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +15,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Client;
 import model.Store;
+import model.VideoGame;
+
 import java.io.IOException;
 
 public class EmergentWindowController {
@@ -35,6 +38,15 @@ public class EmergentWindowController {
     private Label checkLabel;
     @FXML
     private Button addBtn;
+    @FXML
+    private Label idLabel;
+    @FXML
+    private ComboBox<String> sortOptions;
+    @FXML
+    private ListView<VideoGame> gamesList;
+    @FXML
+    private Button sortBtn;
+    private Client current;
 
     public EmergentWindowController(Store myStore) {
         this.myStore = myStore;
@@ -119,20 +131,60 @@ public class EmergentWindowController {
     }//End addGameToList
 
     @FXML
-    public void showClientData(Client client) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FOLDER + ""));
+    public void chooseSortingMethod(Client client) throws IOException {
+        current = client;
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FOLDER + "ChooseSortingMethod.fxml"));
         fxmlLoader.setController(this);
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root, null);
         Stage form = new Stage();
         form.initModality(Modality.APPLICATION_MODAL);
-        form.setTitle("");
         form.setScene(scene);
-        form.setHeight(390.0);
-        form.setWidth(530.0);
+        initializeSortOptionsComboBox();
+        initializeGamesList();
+        idLabel.setText(client.getId());
+        sortBtn.setDisable(true);
+        form.setTitle("");
+        form.setHeight(400.0);
+        form.setWidth(351.0);
         form.setResizable(false);
         form.showAndWait();
     }//End showClientData
+
+    @FXML
+    public void checkSortOption() {
+        if(sortOptions.getValue() != null)
+            sortBtn.setDisable(false);
+    }//End checkSortOption
+
+    private void initializeSortOptionsComboBox() {
+        sortOptions.getItems().clear();
+        sortOptions.getItems().add("1. Insertion");
+        sortOptions.getItems().add("2. Bubble");
+    }//End initializeSortOptionsComboBox
+
+    private void initializeGamesList() {
+        try {
+            ObservableList<VideoGame> list = FXCollections.observableList(myStore.getClientGamesAsList(current));
+            gamesList.setItems(list);
+        } catch (QueueException ignored) {}
+    }//End initializeGamesList
+
+    @FXML
+    public void sortClientList(ActionEvent e) {
+        int option;
+        String id = idLabel.getText();
+        if(sortOptions.getValue().equals("1. Insertion"))
+            option = 1;
+        else
+            option = 2;
+        try {
+            myStore.sortClientList(option, id);
+            sortBtn.setDisable(true);
+            initializeGamesList();
+            initializeSortOptionsComboBox();
+        } catch (QueueException ignored) {}
+    }//End sortClientList
 
     private void closeEmergentWindow(ActionEvent e) {
         Node source = (Node) e.getSource();

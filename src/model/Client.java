@@ -8,6 +8,8 @@ public class Client implements Comparable<Client> {
 	private String id;
 	private int time;
 	private double total;
+	private int position;
+	private boolean sorted;
 	private LinkedList<VideoGame> games;
 	private Stack<VideoGame> cart;
 	private Stack<VideoGame> bag;
@@ -16,6 +18,8 @@ public class Client implements Comparable<Client> {
 		this.id = id;
 		time = 0;
 		total = 0.0;
+		position = 0;
+		sorted = false;
 		games = new LinkedList<VideoGame>();
 		cart = new Stack<VideoGame>();
 		bag = new Stack<VideoGame>();
@@ -44,6 +48,22 @@ public class Client implements Comparable<Client> {
 	public void setTotal(double total) {
 		this.total = total;
 	}//End setTotal
+
+	public int getPosition() {
+		return position;
+	}//End getPosition
+
+	public void setPosition(int position) {
+		this.position = position;
+	}//End setPosition
+
+	public boolean getSorted() {
+		return sorted;
+	}//End getSorted;
+
+	public void setSorted(boolean sorted) {
+		this.sorted = sorted;
+	}//End setSorted
 
 	public LinkedList<VideoGame> getGames() {
 		return games;
@@ -79,12 +99,7 @@ public class Client implements Comparable<Client> {
 
 	@Override
 	public String toString() {
-		String info = "";
-		info = "\nId: " + id +
-				"\nTiempo: " + time + " minutos" +
-				"\n--- JUEGOS ---" + bag.toString() + "\n--------------" +
-				"\nTotal: $" + total;
-		return info;
+		return "[" + position + "] IDENTIFICACIÓN: " + id;
 	}//End toString
 
 	@Override
